@@ -1,2 +1,3 @@
 # UI-projects
-list of my designs with png files , fig files and figma links 
+list of my designs with png and figma links 
+
