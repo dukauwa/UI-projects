@@ -373,13 +373,15 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Typewriter text */
-        .typewriter-text {
+        /* Reveal text animation */
+        .reveal-text {
             opacity: 0;
+            transform: translateY(20px);
         }
 
-        .typewriter-text.revealed {
+        .reveal-text.revealed {
             opacity: 1;
+            transform: translateY(0);
         }
 
         .letter-closing {
@@ -606,24 +608,24 @@
         <div class="letter-paper" id="letterPaper">
             <p class="letter-date" id="letterDate"></p>
 
-            <h2 class="letter-greeting typewriter-text">My Dearest Ifeoluwa,</h2>
+            <h2 class="letter-greeting reveal-text">My Dearest Ifeoluwa,</h2>
 
-            <div class="letter-decorative typewriter-text">❦ ✦ ❦</div>
+            <div class="letter-decorative reveal-text">❦ ✦ ❦</div>
 
             <div class="letter-content">
-                <p class="typewriter-text">
+                <p class="reveal-text">
                     Good morning, my beautiful sunshine! ☀️ As the first rays of light touch the world today,
                     I want you to know that <span class="highlight">you are the very first thought on my mind</span>.
                     Waking up knowing you exist in this world makes every morning feel like a gift.
                 </p>
 
-                <p class="typewriter-text">
+                <p class="reveal-text">
                     Your presence in my life is like <span class="emphasis">a cup of the finest coffee mixed
                     with pure sunshine</span>, warm, comforting, and absolutely essential to start my day right.
                     Even from afar, your energy reaches me and fills my heart with joy.
                 </p>
 
-                <p class="typewriter-text">
+                <p class="reveal-text">
                     Today, I want you to remember something important:
                     <span class="highlight">the world needs your light today</span>.
                     Your smile has the power to brighten someone's darkest moment.
@@ -631,27 +633,27 @@
                     Your strength inspires everyone around you.
                 </p>
 
-                <p class="typewriter-text">
+                <p class="reveal-text">
                     Whatever challenges this day may bring, face them knowing that
                     <span class="emphasis">you are stronger than you know, braver than you believe,
                     and more loved than you could ever imagine</span>. I believe in you completely,
                     and I'm cheering for you with every beat of my heart.
                 </p>
 
-                <p class="typewriter-text">
+                <p class="reveal-text">
                     May your day be filled with unexpected blessings, moments of laughter,
                     and the sweet satisfaction of knowing you are <span class="highlight">deeply,
                     truly, and endlessly loved</span>.
                 </p>
             </div>
 
-            <div class="letter-closing typewriter-text">
+            <div class="letter-closing reveal-text">
                 <p class="hello-text">Hellooooo</p>
                 <p class="getdown-text">get downnn</p>
                 <p class="signature">David</p>
             </div>
 
-            <div class="letter-hearts typewriter-text">
+            <div class="letter-hearts reveal-text">
                 <span>♥</span>
                 <span>♥</span>
                 <span>♥</span>
@@ -731,7 +733,7 @@
         const affirmationsSection = document.getElementById('affirmationsSection');
         const footer = document.getElementById('footer');
         const affirmationCards = document.querySelectorAll('.affirmation-card');
-        const typewriterElements = document.querySelectorAll('.typewriter-text');
+        const revealElements = document.querySelectorAll('.reveal-text');
         let isOpen = false;
 
         // Envelope interaction - opens and reveals the letter with GSAP
@@ -810,38 +812,38 @@
             }
         });
 
-        // Initialize scroll-triggered typewriter animations
+        // Initialize scroll-triggered reveal animations
         function initScrollAnimations() {
-            // Animate each typewriter element on scroll
-            typewriterElements.forEach((element, index) => {
-                gsap.fromTo(element,
-                    {
-                        opacity: 0,
-                        y: 20
+            // Create a timeline for sequential reveal of letter content
+            let currentIndex = 0;
+            const revealArray = Array.from(revealElements);
+
+            // Set up scroll triggers for each element - one at a time
+            revealArray.forEach((element, index) => {
+                ScrollTrigger.create({
+                    trigger: element,
+                    start: 'top 80%',
+                    onEnter: () => {
+                        // Only animate if this is the next element in sequence
+                        gsap.to(element, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: 'power2.out',
+                            onComplete: () => {
+                                element.classList.add('revealed');
+                            }
+                        });
                     },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: element,
-                            start: 'top 85%',
-                            end: 'top 60%',
-                            toggleActions: 'play none none none'
-                        },
-                        onStart: () => {
-                            // Add typewriter effect
-                            typewriterEffect(element);
-                        }
-                    }
-                );
+                    once: true
+                });
             });
 
             // Animate affirmations section
             ScrollTrigger.create({
                 trigger: affirmationsSection,
                 start: 'top 80%',
+                once: true,
                 onEnter: () => {
                     affirmationsSection.classList.add('visible');
                     gsap.fromTo(affirmationsSection,
@@ -849,7 +851,7 @@
                         { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
                     );
 
-                    // Animate cards
+                    // Animate cards one by one
                     affirmationCards.forEach((card, index) => {
                         gsap.fromTo(card,
                             { opacity: 0, y: 30, scale: 0.9 },
@@ -871,6 +873,7 @@
             ScrollTrigger.create({
                 trigger: footer,
                 start: 'top 90%',
+                once: true,
                 onEnter: () => {
                     footer.classList.add('visible');
                     gsap.fromTo(footer,
@@ -878,28 +881,6 @@
                         { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
                     );
                 }
-            });
-        }
-
-        // Typewriter effect function
-        function typewriterEffect(element) {
-            const text = element.innerHTML;
-            const words = text.split(' ');
-            element.innerHTML = '';
-            element.style.opacity = 1;
-
-            words.forEach((word, index) => {
-                const span = document.createElement('span');
-                span.innerHTML = word + ' ';
-                span.style.opacity = '0';
-                element.appendChild(span);
-
-                gsap.to(span, {
-                    opacity: 1,
-                    duration: 0.05,
-                    delay: index * 0.03,
-                    ease: 'none'
-                });
             });
         }
 
