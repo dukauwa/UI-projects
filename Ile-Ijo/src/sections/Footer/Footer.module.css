@@ -1,0 +1,201 @@
+/* Footer Reveal Logic */
+.footer {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+    /* Behind main content */
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding-top: var(--space-20);
+    padding-bottom: 0;
+    overflow: hidden;
+    /* Blend mode setup */
+    isolation: isolate;
+    border-top: none;
+}
+
+/* WebGL Background */
+.webglBackground {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.webglEmbed {
+    width: 100%;
+    height: 100%;
+    /* Zoom in and crop to hide the badge */
+    transform: scale(1.15);
+    transform-origin: center center;
+    clip-path: inset(0 0 80px 0);
+}
+
+/* Hide Unicorn Studio badge */
+.webglBackground :global([data-us-project] > a),
+.webglBackground :global(a[href*="unicorn.studio"]) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Background Pattern */
+.footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/footer-pattern.png');
+    background-size: 800px;
+    background-repeat: repeat;
+    opacity: 0.05;
+    /* Even more subtle */
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    max-width: 1400px;
+    margin-inline: auto;
+    padding-inline: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+    margin-bottom: var(--space-20);
+}
+
+/* Top Row: 3 Columns */
+.topRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.column {
+    flex: 1;
+}
+
+.column.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.column.right {
+    text-align: right;
+}
+
+/* Content Styles */
+.label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-2);
+    display: block;
+    color: rgba(255, 255, 255, 0.4);
+    /* Much more subtle label */
+}
+
+.link {
+    font-size: var(--text-sm);
+    color: var(--color-white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link:hover {
+    opacity: 1;
+    color: var(--color-black);
+}
+
+/* Logo */
+.logo {
+    width: 280px;
+    /* Larger logo */
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Bottom Row */
+.bottomRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.socials {
+    display: flex;
+    gap: var(--space-4);
+}
+
+.socialLink {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: var(--font-bold);
+    transition: color 0.3s ease;
+}
+
+.socialLink:hover {
+    color: var(--color-black);
+}
+
+/* Large Marquee Text */
+.marqueeContainer {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: var(--space-4);
+    line-height: 0.8;
+    user-select: none;
+}
+
+.marqueeText {
+    font-family: var(--font-heading);
+    font-size: 16vw;
+    color: var(--color-white);
+    display: inline-block;
+    padding-left: 20px;
+    will-change: transform;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    opacity: 0.15;
+    /* Increased from 0.05 for better visibility */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer {
+        position: relative;
+        /* Disable reveal on mobile for performance */
+        z-index: auto;
+        padding-bottom: var(--space-12);
+    }
+
+    .topRow {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-12);
+    }
+
+    .column.right {
+        text-align: center;
+    }
+
+    .bottomRow {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-4);
+        text-align: center;
+    }
+}

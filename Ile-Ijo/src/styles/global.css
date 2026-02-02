@@ -1,0 +1,251 @@
+/* =====================================================
+   GLOBAL STYLES
+   Main stylesheet - imports and global utilities
+   ===================================================== */
+
+/* Import order matters */
+@import './tokens.css';
+@import './reset.css';
+@import './typography.css';
+@import './animations.css';
+
+/* ──────────────────────────────────────────────────
+   BASE STYLES
+   ────────────────────────────────────────────────── */
+
+html {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+}
+
+body {
+    background-color: var(--color-background);
+    overflow-x: hidden;
+}
+
+/* Lenis smooth scroll target */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+/* ──────────────────────────────────────────────────
+   LAYOUT UTILITIES
+   ────────────────────────────────────────────────── */
+
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-padding);
+}
+
+.section {
+    padding-block: var(--section-padding-y);
+    padding-inline: var(--section-padding-x);
+}
+
+.section-full {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ──────────────────────────────────────────────────
+   FLEX UTILITIES
+   ────────────────────────────────────────────────── */
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-1 {
+    gap: var(--space-1);
+}
+
+.gap-2 {
+    gap: var(--space-2);
+}
+
+.gap-4 {
+    gap: var(--space-4);
+}
+
+.gap-6 {
+    gap: var(--space-6);
+}
+
+.gap-8 {
+    gap: var(--space-8);
+}
+
+/* ──────────────────────────────────────────────────
+   GRID UTILITIES
+   ────────────────────────────────────────────────── */
+
+.grid {
+    display: grid;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 768px) {
+
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ──────────────────────────────────────────────────
+   SPACING UTILITIES
+   ────────────────────────────────────────────────── */
+
+.mt-auto {
+    margin-top: auto;
+}
+
+.mb-auto {
+    margin-bottom: auto;
+}
+
+.mx-auto {
+    margin-inline: auto;
+}
+
+/* ──────────────────────────────────────────────────
+   VISIBILITY UTILITIES
+   ────────────────────────────────────────────────── */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ──────────────────────────────────────────────────
+   BUTTON STYLES
+   ────────────────────────────────────────────────── */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+    transition: all var(--duration-base) var(--ease-out);
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-black);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-light);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: var(--border-thin) solid var(--color-foreground);
+    color: var(--color-foreground);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+}
+
+/* ──────────────────────────────────────────────────
+   SELECTION STYLES
+   ────────────────────────────────────────────────── */
+
+::selection {
+    background-color: var(--color-accent);
+    color: var(--color-black);
+}
+
+/* ──────────────────────────────────────────────────
+   SCROLLBAR STYLES
+   ────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-gray-800);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-gray-600);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-500);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-600) var(--color-gray-800);
+}
