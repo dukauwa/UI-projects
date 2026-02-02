@@ -1,0 +1,132 @@
+/* Announcement Section */
+.announcement {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    padding-block: var(--space-8);
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid var(--color-gray-800);
+}
+
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-padding);
+}
+
+/* Header */
+.headerTitle {
+    font-size: clamp(2rem, 9.5vw, 12rem);
+    /* Massive size but ensuring fit */
+    font-weight: var(--font-black);
+    text-transform: uppercase;
+    line-height: 0.8;
+    letter-spacing: var(--tracking-tighter);
+    color: var(--color-white);
+    text-align: center;
+    margin-bottom: var(--space-12);
+    width: 100%;
+    display: block;
+    white-space: nowrap;
+}
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+/* Card Styles */
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    cursor: pointer;
+}
+
+.imageWrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    position: relative;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.card:hover .image {
+    transform: scale(1.05);
+}
+
+/* Content */
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+}
+
+.titleWrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.title {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-white);
+}
+
+.badge {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    padding: 2px 4px;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+.meta {
+    color: var(--color-muted);
+    font-weight: var(--font-regular);
+}
+
+.metaRight {
+    color: var(--color-muted);
+    text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .headerTitle {
+        font-size: clamp(3rem, 15vw, 6rem);
+    }
+}

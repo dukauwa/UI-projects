@@ -1,0 +1,269 @@
+.hero {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--color-black);
+}
+
+/* Background media (video or image) */
+.background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.backgroundMedia {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.backgroundOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            hsla(0, 0%, 0%, 0.5) 0%,
+            hsla(0, 0%, 0%, 0.3) 50%,
+            hsla(0, 0%, 0%, 0.8) 100%);
+}
+
+/* Placeholder for when no media is provided */
+.backgroundPlaceholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            var(--color-gray-900) 0%,
+            var(--color-black) 50%,
+            var(--color-gray-800) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-700);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-wider);
+}
+
+/* Header/Nav area */
+.header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--space-6) var(--section-padding-x);
+    padding-top: var(--space-8);
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.logoImage {
+    height: 48px;
+    width: auto;
+}
+
+.logoMark {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-white);
+}
+
+.logoTagline {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.contactInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.contactLabel {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-white);
+}
+
+.contactEmail {
+    font-size: 12px;
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-white);
+    text-decoration: none;
+    transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.contactEmail:hover {
+    opacity: 0.7;
+}
+
+.contactLink {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.contactLink:hover {
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+}
+
+/* Main content area - centered CTA */
+.content {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-8) var(--section-padding-x);
+}
+
+.taglineMask {
+    overflow: hidden;
+}
+
+.tagline {
+    font-size: 18px;
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-white);
+    margin-bottom: var(--space-6);
+    max-width: 700px;
+    text-transform: uppercase;
+    opacity: 0;
+    /* Hidden until GSAP animates */
+}
+
+.cta {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    transition: transform var(--duration-base) var(--ease-out),
+        text-shadow var(--duration-base) var(--ease-out);
+}
+
+.cta:hover {
+    transform: scale(1.02);
+    text-shadow: 0 0 30px hsla(0, 100%, 45%, 0.4);
+}
+
+/* Large brand name at the bottom */
+.brandName {
+    position: relative;
+    z-index: 5;
+    padding: var(--space-8) var(--section-padding-x);
+    padding-bottom: var(--space-12);
+    text-align: center;
+}
+
+.brandText {
+    font-size: clamp(4rem, 15vw, 14rem);
+    font-weight: var(--font-black);
+    line-height: 1.2;
+    /* Increased from 0.85 to fix clipping */
+    letter-spacing: var(--tracking-tighter);
+    color: var(--color-white);
+    text-transform: uppercase;
+    padding-top: 0.2em;
+    /* Extra buffer for accent mark */
+    display: inline-block;
+}
+
+/* Alternative: Registration mark styling */
+.brandText sup {
+    font-size: 0.2em;
+    vertical-align: super;
+    margin-left: 0.1em;
+}
+
+/* Gradient text option */
+.brandTextAccent {
+    background: linear-gradient(135deg,
+            var(--color-white) 0%,
+            var(--color-gray-300) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Scroll indicator (optional) */
+.scrollIndicator {
+    position: absolute;
+    bottom: var(--space-8);
+    right: var(--section-padding-x);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+}
+
+.scrollIcon {
+    width: 24px;
+    height: 40px;
+    border: 2px solid var(--color-muted);
+    border-radius: var(--radius-full);
+    position: relative;
+}
+
+.scrollIcon::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background-color: var(--color-muted);
+    border-radius: var(--radius-full);
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(8px);
+    }
+}

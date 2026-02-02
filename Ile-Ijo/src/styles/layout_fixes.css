@@ -1,0 +1,19 @@
+/* Global Styles */
+
+/* Ensure main content sits above footer for reveal effect */
+main {
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-black);
+    /* Crucial: must be opaque to cover footer */
+    margin-bottom: 0;
+    /* Footer height handled by its sticky position or spacer if needed */
+}
+
+/* Specific main wrapper if used */
+.main-content {
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-black);
+    width: 100%;
+}

@@ -1,0 +1,19 @@
+/* Breather Section */
+.breather {
+    background-color: var(--color-black);
+    padding-block: var(--space-24);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.text {
+    font-size: 14px;
+    /* Matches About section body */
+    font-weight: var(--font-regular);
+    line-height: 1.8;
+    color: var(--color-muted);
+    max-width: 600px;
+    padding-inline: var(--space-4);
+}

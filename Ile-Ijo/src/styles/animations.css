@@ -1,0 +1,189 @@
+/* =====================================================
+   ANIMATION UTILITIES
+   Reusable animation classes and keyframes
+   ===================================================== */
+
+/* ──────────────────────────────────────────────────
+   VISIBILITY STATES FOR GSAP
+   Elements start hidden and animate in
+   ────────────────────────────────────────────────── */
+
+.gsap-hidden {
+    visibility: hidden;
+}
+
+.gsap-reveal {
+    visibility: visible;
+}
+
+/* ──────────────────────────────────────────────────
+   SPLIT TEXT PREP
+   Styles for text splitting animations
+   ────────────────────────────────────────────────── */
+
+.split-text {
+    overflow: hidden;
+}
+
+.split-text .char,
+.split-text .word,
+.split-text .line {
+    display: inline-block;
+}
+
+/* ──────────────────────────────────────────────────
+   PARALLAX ELEMENTS
+   ────────────────────────────────────────────────── */
+
+.parallax-element {
+    will-change: transform;
+}
+
+/* ──────────────────────────────────────────────────
+   MAGNETIC BUTTONS
+   ────────────────────────────────────────────────── */
+
+.magnetic {
+    display: inline-block;
+    will-change: transform;
+}
+
+.magnetic-inner {
+    display: inline-block;
+    will-change: transform;
+}
+
+/* ──────────────────────────────────────────────────
+   SCROLL INDICATOR
+   ────────────────────────────────────────────────── */
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+.scroll-indicator {
+    animation: bounce 2s ease-in-out infinite;
+}
+
+/* ──────────────────────────────────────────────────
+   LOADING STATES
+   ────────────────────────────────────────────────── */
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* ──────────────────────────────────────────────────
+   REVEAL ANIMATIONS (CSS Fallbacks)
+   Used when JS is disabled or as initial states
+   ────────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ──────────────────────────────────────────────────
+   HOVER TRANSITIONS
+   ────────────────────────────────────────────────── */
+
+.hover-lift {
+    transition: transform var(--duration-base) var(--ease-out),
+        box-shadow var(--duration-base) var(--ease-out);
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.hover-scale {
+    transition: transform var(--duration-base) var(--ease-out);
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+.hover-glow {
+    transition: box-shadow var(--duration-base) var(--ease-out);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 30px hsla(24, 100%, 50%, 0.3);
+}
