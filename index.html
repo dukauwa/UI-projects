@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Morning, My Love ♥</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffeef2 50%, #fff0f5 100%);
+            min-height: 100vh;
+            color: #4a3f3f;
+            overflow-x: hidden;
+        }
+
+        /* Lock scroll on hero */
+        body.scroll-locked {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Floating Hearts Background */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            opacity: 0.15;
+            animation: floatUp 15s infinite ease-in-out;
+            color: #e75480;
+        }
+
+        @keyframes floatUp {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            90% {
+                opacity: 0.15;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Music Player */
+        .music-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .music-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e75480 0%, #ff6b9d 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(231, 84, 128, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(231, 84, 128, 0.5);
+        }
+
+        .music-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            z-index: 1;
+        }
+
+        .music-btn.playing .play-icon {
+            display: none;
+        }
+
+        .music-btn.playing .bars {
+            display: flex;
+        }
+
+        .music-btn .bars {
+            display: none;
+            gap: 3px;
+            align-items: flex-end;
+            height: 20px;
+        }
+
+        .music-btn .bar {
+            width: 4px;
+            background: white;
+            border-radius: 2px;
+            animation: musicBars 0.5s ease-in-out infinite alternate;
+        }
+
+        .music-btn .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .music-btn .bar:nth-child(2) { height: 16px; animation-delay: 0.1s; }
+        .music-btn .bar:nth-child(3) { height: 12px; animation-delay: 0.2s; }
+        .music-btn .bar:nth-child(4) { height: 18px; animation-delay: 0.3s; }
+
+        @keyframes musicBars {
+            0% { height: 8px; }
+            100% { height: 20px; }
+        }
+
+        .tap-hint {
+            position: absolute;
+            top: 70px;
+            right: 0;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            animation: fadeInOut 3s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffeef2 50%, #fff0f5 100%);
+        }
+
+        .hero.hidden {
+            pointer-events: none;
+        }
+
+        .envelope {
+            width: 280px;
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff 0%, #ffeef2 100%);
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(231, 84, 128, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #ffd6e0 0%, #ffb6c8 100%);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 2;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #e75480;
+            animation: heartbeat 1.5s infinite;
+            z-index: 3;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .hero-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #e75480;
+            text-align: center;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.5s;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #8b7070;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.8s;
+        }
+
+        .tap-to-open {
+            margin-top: 30px;
+            font-size: 1rem;
+            color: #e75480;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Letter Section */
+        .letter-section {
+            min-height: 100vh;
+            padding: 60px 20px;
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .letter-section.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .letter-paper {
+            max-width: 600px;
+            width: 100%;
+            background: linear-gradient(to bottom, #fffdf7 0%, #fff9f0 100%);
+            padding: 40px 30px;
+            border-radius: 5px;
+            box-shadow:
+                0 2px 4px rgba(0,0,0,0.05),
+                0 10px 40px rgba(231, 84, 128, 0.15);
+            position: relative;
+            transform: rotate(-1deg);
+        }
+
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 40px;
+            right: 40px;
+            height: 30px;
+            background: repeating-linear-gradient(
+                to right,
+                transparent,
+                transparent 10px,
+                #ffd6e0 10px,
+                #ffd6e0 12px
+            );
+            opacity: 0.5;
+        }
+
+        .letter-date {
+            text-align: right;
+            font-style: italic;
+            color: #a08080;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .letter-greeting {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: #e75480;
+            margin-bottom: 20px;
+        }
+
+        .letter-decorative {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #e75480;
+            margin: 20px 0;
+            opacity: 0.6;
+        }
+
+        .letter-content {
+            line-height: 2;
+            font-size: 1.15rem;
+        }
+
+        .letter-content p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+
+        .letter-content .highlight {
+            color: #e75480;
+            font-weight: 500;
+        }
+
+        .letter-content .emphasis {
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Reveal text animation */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .reveal-text.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .letter-closing {
+            margin-top: 40px;
+            text-align: right;
+        }
+
+        .letter-closing .hello-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.4rem;
+            color: #e75480;
+            margin-bottom: 5px;
+        }
+
+        .letter-closing .getdown-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #4a3f3f;
+            margin-bottom: 5px;
+        }
+
+        .letter-closing .signature {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #4a3f3f;
+        }
+
+        .letter-hearts {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #e75480;
+        }
+
+        .letter-hearts span {
+            animation: heartFloat 3s infinite ease-in-out;
+        }
+
+        .letter-hearts span:nth-child(2) { animation-delay: 0.2s; }
+        .letter-hearts span:nth-child(3) { animation-delay: 0.4s; }
+        .letter-hearts span:nth-child(4) { animation-delay: 0.6s; }
+        .letter-hearts span:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+
+        /* Affirmations Section */
+        .affirmations-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .affirmations-section.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .affirmations-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: #e75480;
+            margin-bottom: 40px;
+        }
+
+        .affirmations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .affirmation-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(231, 84, 128, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .affirmation-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .affirmation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(231, 84, 128, 0.25);
+        }
+
+        .affirmation-card .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .affirmation-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #5a4a4a;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .footer.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .footer-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #e75480;
+        }
+
+        .footer-hearts {
+            margin-top: 20px;
+            font-size: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .letter-paper {
+                padding: 30px 20px;
+            }
+
+            .letter-greeting {
+                font-size: 2rem;
+            }
+
+            .letter-content {
+                font-size: 1.05rem;
+            }
+
+            .music-btn {
+                width: 50px;
+                height: 50px;
+            }
+
+            .envelope {
+                width: 240px;
+                height: 170px;
+            }
+        }
+
+        /* Sparkle effect on click */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: sparkleAnim 1s forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="scroll-locked">
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Music Player -->
+    <div class="music-container">
+        <button class="music-btn" id="musicBtn" aria-label="Play music">
+            <svg class="play-icon" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <div class="bars">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </button>
+        <div class="tap-hint">♪ Tap for music</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="heroSection">
+        <div class="envelope" id="envelope">
+            <div class="envelope-body"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-heart">♥</div>
+        </div>
+        <h1 class="hero-title">Good Morning, My Love</h1>
+        <p class="hero-subtitle">A special message just for you ♥</p>
+        <p class="tap-to-open" id="tapHint">Tap the envelope to open</p>
+    </section>
+
+    <!-- Letter Section -->
+    <section class="letter-section" id="letterSection">
+        <div class="letter-paper" id="letterPaper">
+            <p class="letter-date" id="letterDate"></p>
+
+            <h2 class="letter-greeting reveal-text">My Dearest Ifeoluwa,</h2>
+
+            <div class="letter-decorative reveal-text">❦ ✦ ❦</div>
+
+            <div class="letter-content">
+                <p class="reveal-text">
+                    Good morning, my beautiful sunshine! ☀️ As the first rays of light touch the world today,
+                    I want you to know that <span class="highlight">you are the very first thought on my mind</span>.
+                    Waking up knowing you exist in this world makes every morning feel like a gift.
+                </p>
+
+                <p class="reveal-text">
+                    Your presence in my life is like <span class="emphasis">a cup of the finest coffee mixed
+                    with pure sunshine</span>, warm, comforting, and absolutely essential to start my day right.
+                    Even from afar, your energy reaches me and fills my heart with joy.
+                </p>
+
+                <p class="reveal-text">
+                    Today, I want you to remember something important:
+                    <span class="highlight">the world needs your light today</span>.
+                    Your smile has the power to brighten someone's darkest moment.
+                    Your kindness ripples out in ways you may never fully see.
+                    Your strength inspires everyone around you.
+                </p>
+
+                <p class="reveal-text">
+                    Whatever challenges this day may bring, face them knowing that
+                    <span class="emphasis">you are stronger than you know, braver than you believe,
+                    and more loved than you could ever imagine</span>. I believe in you completely,
+                    and I'm cheering for you with every beat of my heart.
+                </p>
+
+                <p class="reveal-text">
+                    May your day be filled with unexpected blessings, moments of laughter,
+                    and the sweet satisfaction of knowing you are <span class="highlight">deeply,
+                    truly, and endlessly loved</span>.
+                </p>
+            </div>
+
+            <div class="letter-closing reveal-text">
+                <p class="hello-text">Hellooooo</p>
+                <p class="getdown-text">get downnn</p>
+                <p class="signature">David</p>
+            </div>
+
+            <div class="letter-hearts reveal-text">
+                <span>♥</span>
+                <span>♥</span>
+                <span>♥</span>
+                <span>♥</span>
+                <span>♥</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Affirmations Section -->
+    <section class="affirmations-section" id="affirmationsSection">
+        <h2 class="affirmations-title">Today's Reminders For You</h2>
+
+        <div class="affirmations-grid">
+            <div class="affirmation-card" data-delay="0">
+                <div class="icon">✨</div>
+                <p>You are worthy of all the beautiful things life has to offer</p>
+            </div>
+
+            <div class="affirmation-card" data-delay="100">
+                <div class="icon">💪</div>
+                <p>Your strength inspires everyone around you</p>
+            </div>
+
+            <div class="affirmation-card" data-delay="200">
+                <div class="icon">🌟</div>
+                <p>You make the world a better place just by being in it</p>
+            </div>
+
+            <div class="affirmation-card" data-delay="300">
+                <div class="icon">💝</div>
+                <p>You are loved more than words could ever express</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <p class="footer-text">Made with love, just for you</p>
+        <div class="footer-hearts">♥ ♥ ♥</div>
+    </footer>
+
+    <!-- Background Music - Slow Love Jazz -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Set today's date
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('letterDate').textContent = today.toLocaleDateString('en-US', options);
+
+        // Create floating hearts
+        const heartsContainer = document.getElementById('floatingHearts');
+        const heartSymbols = ['♥', '♡', '❤', '💕', '💗'];
+
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heart.style.animationDelay = Math.random() * 15 + 's';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // Elements
+        const envelope = document.getElementById('envelope');
+        const tapHint = document.getElementById('tapHint');
+        const heroSection = document.getElementById('heroSection');
+        const letterSection = document.getElementById('letterSection');
+        const affirmationsSection = document.getElementById('affirmationsSection');
+        const footer = document.getElementById('footer');
+        const affirmationCards = document.querySelectorAll('.affirmation-card');
+        const revealElements = document.querySelectorAll('.reveal-text');
+        let isOpen = false;
+
+        // Envelope interaction - opens and reveals the letter with GSAP
+        envelope.addEventListener('click', () => {
+            if (!isOpen) {
+                isOpen = true;
+
+                // Create sparkle effect
+                createSparkles(envelope);
+
+                // GSAP Timeline for envelope opening
+                const tl = gsap.timeline();
+
+                // Open envelope flap
+                tl.to('.envelope-flap', {
+                    rotateX: 180,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                })
+                // Fly heart up
+                .to('.envelope-heart', {
+                    y: -150,
+                    scale: 0,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                }, '-=0.3')
+                // Fade out tap hint
+                .to(tapHint, {
+                    opacity: 0,
+                    duration: 0.3
+                }, '-=0.5')
+                // Scale down and fade envelope
+                .to('.envelope', {
+                    scale: 0.5,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: 'power2.in'
+                })
+                // Fade out hero title and subtitle
+                .to(['.hero-title', '.hero-subtitle'], {
+                    opacity: 0,
+                    y: -30,
+                    duration: 0.4,
+                    stagger: 0.1
+                }, '-=0.3')
+                // Fade out entire hero
+                .to(heroSection, {
+                    opacity: 0,
+                    duration: 0.5,
+                    onComplete: () => {
+                        heroSection.classList.add('hidden');
+                        document.body.classList.remove('scroll-locked');
+                        letterSection.classList.add('visible');
+
+                        // Animate letter paper in
+                        gsap.fromTo('#letterPaper',
+                            {
+                                opacity: 0,
+                                y: 100,
+                                scale: 0.8,
+                                rotateX: 20
+                            },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                rotateX: 0,
+                                duration: 1,
+                                ease: 'power3.out',
+                                onComplete: initScrollAnimations
+                            }
+                        );
+                    }
+                });
+            }
+        });
+
+        // Initialize scroll-triggered reveal animations
+        function initScrollAnimations() {
+            // Create a timeline for sequential reveal of letter content
+            let currentIndex = 0;
+            const revealArray = Array.from(revealElements);
+
+            // Set up scroll triggers for each element - one at a time
+            revealArray.forEach((element, index) => {
+                ScrollTrigger.create({
+                    trigger: element,
+                    start: 'top 80%',
+                    onEnter: () => {
+                        // Only animate if this is the next element in sequence
+                        gsap.to(element, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: 'power2.out',
+                            onComplete: () => {
+                                element.classList.add('revealed');
+                            }
+                        });
+                    },
+                    once: true
+                });
+            });
+
+            // Animate affirmations section
+            ScrollTrigger.create({
+                trigger: affirmationsSection,
+                start: 'top 80%',
+                once: true,
+                onEnter: () => {
+                    affirmationsSection.classList.add('visible');
+                    gsap.fromTo(affirmationsSection,
+                        { opacity: 0, y: 50 },
+                        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+                    );
+
+                    // Animate cards one by one
+                    affirmationCards.forEach((card, index) => {
+                        gsap.fromTo(card,
+                            { opacity: 0, y: 30, scale: 0.9 },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                duration: 0.6,
+                                delay: index * 0.15,
+                                ease: 'back.out(1.2)',
+                                onComplete: () => card.classList.add('visible')
+                            }
+                        );
+                    });
+                }
+            });
+
+            // Animate footer
+            ScrollTrigger.create({
+                trigger: footer,
+                start: 'top 90%',
+                once: true,
+                onEnter: () => {
+                    footer.classList.add('visible');
+                    gsap.fromTo(footer,
+                        { opacity: 0, y: 30 },
+                        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+                    );
+                }
+            });
+        }
+
+        // Music player
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const tapHintMusic = document.querySelector('.tap-hint');
+        let isPlaying = false;
+
+        // Set volume for gentle jazz
+        bgMusic.volume = 0.4;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+            } else {
+                bgMusic.play();
+                musicBtn.classList.add('playing');
+                tapHintMusic.style.display = 'none';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Sparkle effect on click
+        function createSparkles(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const colors = ['#e75480', '#ff6b9d', '#ffd6e0', '#ffb6c8', '#ff69b4'];
+
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+
+                const angle = (Math.PI * 2 * i) / 30;
+                const distance = 50 + Math.random() * 100;
+
+                sparkle.style.left = centerX + 'px';
+                sparkle.style.top = centerY + 'px';
+                sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(sparkle);
+
+                gsap.to(sparkle, {
+                    x: Math.cos(angle) * distance,
+                    y: Math.sin(angle) * distance,
+                    scale: 0,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power2.out',
+                    onComplete: () => sparkle.remove()
+                });
+            }
+        }
+
+        // Add sparkle on affirmation card click
+        affirmationCards.forEach(card => {
+            card.addEventListener('click', () => {
+                createSparkles(card);
+            });
+        });
+
+        // Touch feedback for mobile
+        document.querySelectorAll('.affirmation-card, .envelope, .music-btn').forEach(el => {
+            el.addEventListener('touchstart', () => {
+                gsap.to(el, { scale: 0.95, duration: 0.1 });
+            });
+            el.addEventListener('touchend', () => {
+                gsap.to(el, { scale: 1, duration: 0.1 });
+            });
+        });
+    </script>
+</body>
+</html>
